@@ -1,9 +1,14 @@
 #include "counter.h"
 
 int main(int argc, char** argv) {
+	if (argc < 3) {
+		std::cout << "Error argc" << std::endl;
+		return 0;
+	}
+	
     Counter counter;
 
-    counter.contWords(argv[1]);
+    counter.countWords(argv[1]);
 
     counter.sortWords();
 

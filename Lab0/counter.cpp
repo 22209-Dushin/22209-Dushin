@@ -3,9 +3,8 @@
 #include <fstream>
 #include <sstream>
 #include <numeric>
-#include <cctype>
 
-void Counter::contWords(const std::string fileName) {
+void Counter::countWords(const std::string fileName) {
     std::ifstream file(fileName);
 
     std::string line;
@@ -33,7 +32,7 @@ void Counter::sortWords() {
     }
 
     std::sort(sortedWords.begin(), sortedWords.end(),
-        [](const std::pair<std::string, int>& left, const std::pair<std::string, int>& right)
+        [](const auto left, const auto right)
         { return left.second > right.second; });
 }
 
@@ -47,7 +46,7 @@ void Counter::writeCSV(const std::string fileName) {
     file << "Word,Frequency,Frequency(%)" << std::endl;
 
     for (const auto& pair : sortedWords) {
-        file << pair.first << "," << pair.second << "," << (double)pair.second / countAllWords * 100 << std::endl;
+        file << pair.first << "," << pair.second << "," << static_cast<double>(pair.second) / countAllWords * 100 << std::endl;
     }
 }
 

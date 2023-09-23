@@ -3,10 +3,11 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <iostream>
 
 class Counter {
 public:
-    void contWords(const std::string fileNAme);
+    void countWords(const std::string fileNAme);
     void sortWords();
     void writeCSV(const std::string fileName);
 
