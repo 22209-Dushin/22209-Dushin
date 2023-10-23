@@ -2,8 +2,6 @@
 CitcularBuffer  
 
 ## Инструкция сборки  
-(Для подключения googletets используется git submodule add https://github.com/google/googletest.git)  
-
 Перейдите в папку с проектом и создайте папку buid для сборки:  
 
 mkdir build  
