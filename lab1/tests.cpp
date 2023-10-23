@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../CircularBuffer.h"
+#include "CircularBuffer.h"
 #include <iostream>
 
 TEST(CircularBuffer, capacityConstructor) {
