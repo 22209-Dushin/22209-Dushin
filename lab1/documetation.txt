@@ -1,0 +1,97 @@
+public:
+
+  // Default constructor: Constructs an empty buffer.
+  CircularBuffer();
+
+  // Destructor: Releases the allocated memory.
+  ~CircularBuffer();
+
+  // Copy constructor: Constructs a buffer that is a copy of another buffer.
+  CircularBuffer(const CircularBuffer & cb);
+
+  // Constructs a buffer with a given capacity.
+  explicit CircularBuffer(int capacity);
+
+  // Constructs a buffer with a given capacity and fills it with the provided element.
+  CircularBuffer(int capacity, const value_type & elem);
+
+  // Index-based access. These methods do not check for index validity.
+  value_type & operator[](int i);
+  const value_type & operator[](int i) const;
+  
+  // Index-based access with boundary checking. Throws an exception if the index is out of bounds.
+  value_type & at(int i);
+  const value_type & at(int i) const;
+
+  // Returns a reference to the first element.
+  value_type & front();
+  const value_type & front() const;
+
+  // Returns a reference to the last element.
+  value_type & back();
+  const value_type & back() const;
+
+  // Linearizes the buffer, shifting elements so that the first element is at the start of the allocated memory.
+  // Returns a pointer to the first element.
+  value_type * linearize();
+
+  // Checks if the buffer is linearized.
+  bool is_linearized() const;
+
+  // Rotates the buffer so that the specified index becomes the zeroth index.
+  void rotate(int new_begin);
+
+  // Returns the number of elements in the buffer.
+  int size() const;
+
+  // Checks if the buffer is empty.
+  bool empty() const;
+
+  // Checks if the buffer is full.
+  bool full() const;
+
+  // Returns the number of free slots in the buffer.
+  int reserve() const;
+
+  // Returns the buffer's capacity.
+  int capacity() const;
+
+  // Sets a new capacity for the buffer. It can truncate the buffer or expand it.
+  void set_capacity(int new_capacity);
+
+  // Resizes the buffer. If expanded, new elements are initialized with the provided item.
+  void resize(int new_size, const value_type & item = value_type());
+
+  // Assignment operator: Assigns another buffer's content to this buffer.
+  CircularBuffer & operator=(const CircularBuffer & cb);
+
+  // Swaps the contents of the buffer with another buffer.
+  void swap(CircularBuffer & cb);
+
+  // Adds an element to the end of the buffer. If the buffer is full, overwrites the first element.
+  void push_back(const value_type & item = value_type());
+
+  // Adds an element to the start of the buffer. If the buffer is full, overwrites the last element.
+  void push_front(const value_type & item = value_type());
+
+  // Removes the last element from the buffer.
+  void pop_back();
+
+  // Removes the first element from the buffer.
+  void pop_front();
+
+  // Inserts an element at the specified index without changing the buffer's capacity.
+  void insert(int pos, const value_type & item = value_type());
+
+  // Removes elements in the specified range [first, last).
+  void erase(int first, int last);
+
+  // Clears all elements from the buffer.
+  void clear();
+};
+
+// Equality check: returns true if the two buffers are identical.
+bool operator==(const CircularBuffer & a, const CircularBuffer & b);
+
+// Inequality check: returns true if the two buffers are not identical.
+bool operator!=(const CircularBuffer & a, const CircularBuffer & b);
