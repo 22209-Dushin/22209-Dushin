@@ -21,6 +21,7 @@ public:
   CircularBuffer(int capacity, const T& elem);
   CircularBuffer(const CircularBuffer& cb);
   ~CircularBuffer();
+  int getIndex(int i);
   T& operator[](int i);
   const T& operator[](int i) const;
   T& at(int i);

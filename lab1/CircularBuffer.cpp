@@ -21,12 +21,16 @@ CircularBuffer::~CircularBuffer() {
   buffer = nullptr;
 }
 
+int CircularBuffer::getIndex(int i) {
+    return (m_head + i) % m_capacity;
+}
+
 T& CircularBuffer::operator[](int i) {
-    return buffer[(m_head + i) % capacity];
+    return buffer[getIndex(int i)];
 }
 
 const T& CircularBuffer::operator[](int i) const {
-  return buffer[(m_head + i) % m_capacity];
+  return buffer[getIndex(int i)];
 }
 
 T& CircularBuffer::at(int i) {
