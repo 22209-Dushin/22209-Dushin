@@ -14,6 +14,7 @@ private:
   int m_tail;
   int m_count;
   int m_capacity;
+  int getIndex(int i);
 
 public:
   CircularBuffer();
@@ -21,7 +22,6 @@ public:
   CircularBuffer(int capacity, const T& elem);
   CircularBuffer(const CircularBuffer& cb);
   ~CircularBuffer();
-  int getIndex(int i);
   T& operator[](int i);
   const T& operator[](int i) const;
   T& at(int i);
