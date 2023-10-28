@@ -158,7 +158,7 @@ void CircularBuffer::push_back(const T& item) {
   if (full()) {
     buffer[m_head] = item;
     m_tail = m_head;
-    m_head = (m_head + 1) % m_capacity;
+    m_head = getIndex(1);
   }
   else {
     ++m_count;
@@ -174,7 +174,7 @@ void CircularBuffer::push_front(const T& item) {
     m_tail = (m_tail - 1 + m_capacity) % m_capacity;
   }
   else {
-    m_head = (m_head - 1 + m_capacity) % m_capacity;
+      m_head = getIndex(m_capacity - 1);
     buffer[m_head] = item;
     ++m_count;
   }
@@ -226,7 +226,7 @@ void CircularBuffer::erase(int first, int last) {
     (*this)[i] = (*this)[i + last - first];
   }
   m_count = m_count - last + first;
-  m_tail = (m_head + m_count - 1) % m_capacity;
+  m_tail = getIndex(count - 1);
 }
 
 bool operator==(const CircularBuffer& a, const CircularBuffer& b) {
