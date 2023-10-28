@@ -215,7 +215,7 @@ void CircularBuffer::insert(int pos, const T& item) {
     for (size_t i = m_count; i > pos; --i) { 
       buffer[getIndex(i)] = buffer[getIndex(i - 1)];
     }
-    buffer[(m_head + pos) % m_capacity] = item;
+    buffer[(getIndex(pos)] = item;
     m_tail = (m_tail + 1) % m_capacity;
     ++m_count;
   }
