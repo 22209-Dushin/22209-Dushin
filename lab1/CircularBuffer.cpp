@@ -22,7 +22,7 @@ CircularBuffer::~CircularBuffer() {
 }
 
 int CircularBuffer::getIndex(int i) {
-    return (m_head + i) % m_count;
+    return (m_head + i) % m_capacity;
 }
 
 T& CircularBuffer::operator[](int i) {
@@ -30,7 +30,7 @@ T& CircularBuffer::operator[](int i) {
 }
 
 const T& CircularBuffer::operator[](int i) const {
-  return buffer[(m_head + i) % m_count];
+  return buffer[getIndex(int i)];
 }
 
 T& CircularBuffer::at(int i) {
@@ -75,7 +75,7 @@ bool CircularBuffer::is_linearized() const {
 }
 
 void CircularBuffer::rotate(int new_begin) {
-  std::rotate(buffer, buffer + (m_head + new_begin) % m_count, buffer + m_count);
+  std::rotate(buffer, buffer + getIndex(new_begin), buffer + m_count);
   m_head = 0;
   m_tail = m_head + m_count - 1;
 }
@@ -212,8 +212,8 @@ void CircularBuffer::insert(int pos, const T& item) {
     if (pos > m_count) {
       pos = m_count;
     }
-    for (size_t i = m_count; i > pos; --i) {
-      buffer[(m_head + i) % m_capacity] = buffer[(m_head + i - 1) % m_capacity];
+    for (size_t i = m_count; i > pos; --i) { 
+      buffer[getIndex(i)] = buffer[getIndex(i - 1)];
     }
     buffer[(m_head + pos) % m_capacity] = item;
     m_tail = (m_tail + 1) % m_capacity;
