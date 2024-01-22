@@ -24,4 +24,4 @@ private:
     void tick();
 };
 
-#endif /* CONTROLLER_H */
+#endif

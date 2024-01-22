@@ -11,6 +11,8 @@ struct GameData {
     std::vector<Point> aliveCells;
     int maxX = 0;
     int maxY = 0;
+    int minX = 0;
+    int minY = 0;
 };
 
 #endif

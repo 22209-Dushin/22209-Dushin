@@ -36,6 +36,8 @@ int FileParser::parse(std::string inFileName, GameData& gameData) {
             gameData.aliveCells.push_back(Coordinate);
             gameData.maxX = std::max(Coordinate.x, gameData.maxX);
             gameData.maxY = std::max(Coordinate.y, gameData.maxY);
+            gameData.minX = std::min(Coordinate.x, gameData.minX);
+            gameData.minY = std::min(Coordinate.y, gameData.minY);
         }
     }
     return 0;

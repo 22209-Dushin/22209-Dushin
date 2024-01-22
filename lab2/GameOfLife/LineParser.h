@@ -1,7 +1,6 @@
 #ifndef LINEPARSER_H
 #define LINEPARSER_H
 
-#include <getopt.h>
 #include <string>
 #include "CommandLineData.h"
 

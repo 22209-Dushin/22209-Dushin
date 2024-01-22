@@ -1,12 +1,9 @@
 #ifndef VIEW_H
 #define VIEW_H
 
-#include <iostream>
-#include <fstream>
-#include <sstream>
 #include "Game.h"
 #include "CommandData.h"
-#include "Command.h"
+
 
 
 class View {
@@ -22,4 +19,4 @@ public:
     void help();
 };
 
-#endif /* VIEW_H */
+#endif

@@ -1,4 +1,7 @@
 #include "View.h"
+#include <sstream>
+#include <iostream>
+#include <fstream>
 #include <unistd.h>
 #include "Command.h"
 
@@ -12,14 +15,14 @@ void View::draw(int currIteration) {
     std::cout << "Current iteration: " << currIteration << std::endl;
 
     std::cout << ' ';
-    for (int i = 0; i < game.getWidth(); i++) {
+    for (int i = 0; i < game.getBoard().getWidth(); i++) {
         std::cout << '_';
     }
     std::cout << std::endl;
 
-    for (int y = game.getHeight() - 1; y >= 0; --y) {
+    for (int y = game.getBoard().getHeight() - 1; y >= game.getBoard().getMinY(); --y) {
         std::cout << '|';
-        for (int x = 0; x < game.getWidth(); ++x) {
+        for (int x = game.getBoard().getMinX(); x < game.getBoard().getWidth(); ++x) {
             if (game.checkCell(x, y))
                 std::cout << "\033[1;32m" << 'O' << "\033[0m";
             else
@@ -29,7 +32,7 @@ void View::draw(int currIteration) {
     }
 
     std::cout << ' ';
-    for (int i = 0; i < game.getWidth(); i++) {
+    for (int i = 0; i < game.getBoard().getWidth(); i++) {
         std::cout << '_';
     }
     std::cout << std::endl;
@@ -41,8 +44,8 @@ void View::draw(std::string fileName) {
     file << "#N " << game.getName() << std::endl;
     file << "#R " << game.getRules() << std::endl;
 
-    for (int y = 0; y < game.getHeight(); ++y) {
-        for (int x = 0; x < game.getWidth(); ++x) {
+    for (int y = game.getBoard().getMinY(); y < game.getBoard().getHeight(); ++y) {
+        for (int x = game.getBoard().getMinX(); x < game.getBoard().getWidth(); ++x) {
             if (game.checkCell(x, y))
                 file << x << ' ' << y << std::endl;
         }

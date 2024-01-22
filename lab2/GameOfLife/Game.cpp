@@ -16,7 +16,7 @@ int Game::countNeighbours(int x, int y) {
 }
 
 Game::Game(GameData gameData)
-    : name(gameData.name), board(gameData.aliveCells, gameData.maxY, gameData.maxX), lastBoard(gameData.maxY, gameData.maxX) {
+    : name(gameData.name), board(gameData.aliveCells, gameData.maxY, gameData.maxX, gameData.minY, gameData.minX), lastBoard(gameData.maxY, gameData.maxX, gameData.minY, gameData.minX) {
 
     bornRules.resize(9, false);
     surviveRules.resize(9, false);
@@ -50,12 +50,8 @@ std::string Game::getName() {
     return name;
 }
 
-int Game::getHeight() {
-    return board.getHeight();
-}
-
-int Game::getWidth() {
-    return board.getWidth();
+const GameBoard& Game::getBoard() {
+    return board;
 }
 
 std::string Game::getRules() {
@@ -83,8 +79,8 @@ void Game::createRandomBoard() {
 
 void Game::updateBoard() {
     lastBoard.fillDead();
-    for (int x = 0; x < getWidth(); ++x) {
-        for (int y = 0; y < getHeight(); ++y) {
+    for (int x = board.getMinX(); x < board.getWidth(); ++x) {
+        for (int y = board.getMinY(); y < board.getHeight(); ++y) {
             int neighbours = countNeighbours(x, y);
             if (checkCell(x, y) && surviveRules[neighbours] || (!checkCell(x, y)) && bornRules[neighbours]) {
                 lastBoard(x, y) = State::Alive;

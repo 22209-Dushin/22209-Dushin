@@ -1,10 +1,10 @@
 #include "LineParser.h"
+#include <getopt.h>
 
 void LineParser::parse(int argc, char** argv, ComandLineData& data) {
     int option;
 
-    const char* shortOptions = "i:o:";
-
+    const char* shortOptions = ":i:o:";
     const struct option longOptions[] = {
         {"iterations", required_argument, nullptr, 'i'},
         {"output", required_argument, nullptr, 'o'},
@@ -19,9 +19,16 @@ void LineParser::parse(int argc, char** argv, ComandLineData& data) {
             case 'o':
                 data.outFile = optarg;
                 break;
+            default:
+                break;
         }
     }
 
-    if (optind < argc)
-        data.inFile = argv[optind];
+    for (int i = optind; i < argc; ++i) {
+        std::string arg = argv[i];
+
+        if (data.inFile.empty()) {
+            data.inFile = arg;
+        }
+    }
 }

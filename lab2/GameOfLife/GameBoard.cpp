@@ -1,20 +1,39 @@
 #include "GameBoard.h"
 #include <cstdlib>
 
-GameBoard::GameBoard(std::vector<Point> coordinates, int maxY, int maxX)
-    : width(maxX + 1), height(maxY + 1), board((maxX + 1) * (maxY + 1)) {
-
+GameBoard::GameBoard(std::vector<Point> coordinates, int maxY, int maxX, int minY, int minX) {
+	if (minX < 0) {
+		shiftX = -minX;
+	}
+	if (minY < 0) {
+		shiftY = -minY;
+	}
+		
+	width = maxX + 1 + shiftX;
+	height = maxY + 1 + shiftY;
+	board.resize(width * height);
+	
     fillDead();
 
     for (const auto& coord : coordinates) {
-        int x = coord.x;
-        int y = coord.y;
+        int x = coord.x + shiftX;
+        int y = coord.y + shiftY;
         (*this)(x, y) = State::Alive;
     }
 }
 
-GameBoard::GameBoard(int maxY, int maxX)
-    : width(maxX + 1), height(maxY + 1), board((maxX + 1) * (maxY + 1)) {
+GameBoard::GameBoard(int maxY, int maxX, int minY, int minX) {
+    if (minX < 0) {
+		shiftX = -minX;
+	}
+	if (minY < 0) {
+		shiftY = -minY;
+	}
+		
+	width = maxX + 1 + shiftX;
+	height = maxY + 1 + shiftY;
+	board.resize(width * height);
+    
     fillDead();
 }
 
@@ -40,7 +59,17 @@ void GameBoard::fillRandom() {
 }
 
 State& GameBoard::operator()(int x, int y) {
-    return board[(y + getHeight()) % getHeight() * width + (x + getWidth()) % getWidth()];
+	if (x < 0) 
+		x = width + (x % width) - shiftX;
+	else 
+		x = x % width - shiftX;
+		
+	if (y < 0) 
+		y = height + (y % height) - shiftY;
+	else 
+		y = y % height - shiftY;
+		
+	return board[y * width + x];
 }
 
 GameBoard& GameBoard::operator=(const GameBoard& other) {
@@ -52,10 +81,18 @@ GameBoard& GameBoard::operator=(const GameBoard& other) {
     return *this;
 }
 
-int GameBoard::getHeight() {
+int GameBoard::getHeight() const {
     return height;
 }
 
-int GameBoard::getWidth() {
+int GameBoard::getWidth() const {
     return width;
+}
+
+int GameBoard::getMinX() const {
+	return -shiftX;
+}
+
+int GameBoard::getMinY() const {
+	return -shiftY;
 }

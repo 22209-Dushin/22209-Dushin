@@ -22,8 +22,8 @@ public:
 
     std::string getName();
 
-    int getHeight();
-    int getWidth();
+    const GameBoard& getBoard();
+    
     std::string getRules();
 
     void createRandomBoard();
@@ -31,4 +31,4 @@ public:
     bool checkCell(int x, int y);
 };
 
-#endif /* GAME_H */
+#endif
