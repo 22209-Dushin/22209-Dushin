@@ -72,6 +72,20 @@ State& GameBoard::operator()(int x, int y) {
 	return board[y * width + x];
 }
 
+const State& GameBoard::operator()(int x, int y) const {
+	if (x < 0) 
+		x = width + (x % width) - shiftX;
+	else 
+		x = x % width - shiftX;
+		
+	if (y < 0) 
+		y = height + (y % height) - shiftY;
+	else 
+		y = y % height - shiftY;
+		
+	return board[y * width + x];
+}
+
 GameBoard& GameBoard::operator=(const GameBoard& other) {
     if (this != &other) {
         width = other.width;

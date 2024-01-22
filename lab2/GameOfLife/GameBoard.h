@@ -22,6 +22,8 @@ public:
     void fillRandom();
 
     State& operator()(int x, int y);
+    
+    const State& operator()(int x, int y) const;
 
     GameBoard& operator=(const GameBoard& other);
 

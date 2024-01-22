@@ -20,15 +20,15 @@ private:
 public:
     Game(GameData gameData);
 
-    std::string getName();
+    std::string getName() const;
 
-    const GameBoard& getBoard();
+    const GameBoard& getBoard() const;
     
-    std::string getRules();
+    std::string getRules() const;
 
     void createRandomBoard();
     void updateBoard();
-    bool checkCell(int x, int y);
+    bool checkCell(int x, int y) const;
 };
 
 #endif

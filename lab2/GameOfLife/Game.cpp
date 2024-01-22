@@ -46,15 +46,15 @@ Game::Game(GameData gameData)
     }
 }
 
-std::string Game::getName() {
+std::string Game::getName() const{
     return name;
 }
 
-const GameBoard& Game::getBoard() {
+const GameBoard& Game::getBoard() const{
     return board;
 }
 
-std::string Game::getRules() {
+std::string Game::getRules() const{
     std::string rules;
 
     rules += "B";
@@ -91,6 +91,6 @@ void Game::updateBoard() {
     std::swap(board, lastBoard);
 }
 
-bool Game::checkCell(int x, int y) {
+bool Game::checkCell(int x, int y) const{
     return board(x, y) == State::Alive;
 }

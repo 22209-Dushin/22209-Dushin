@@ -8,7 +8,7 @@
 
 class View {
 private:
-    Game& game;
+    const Game& game;
 
 public:
     View(Game& model);

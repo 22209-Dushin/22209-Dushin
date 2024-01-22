@@ -18,7 +18,7 @@ FetchContent_MakeAvailable(googletest)
  
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}) 
  
-add_executable(runTests game.h tests.cpp) 
+add_executable(runTests tests.cpp View.cpp LineParser.cpp GameBoard.cpp Game.cpp FileParser.cpp)  
  
 add_custom_target(coverage 
         COMMAND gcovr --root=${CMAKE_SOURCE_DIR} --exclude=${CMAKE_SOURCE_DIR}/build --html --html-details -o coverage_report.html 

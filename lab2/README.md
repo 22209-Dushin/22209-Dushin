@@ -10,7 +10,7 @@ g++ -o main main.cpp View.cpp LineParser.cpp GameBoard.cpp Game.cpp FileParser.c
 ./main
 
 ## Инструкция сборки  
-Перейдите в папку TESTS и создайте папку buid для сборки:  
+Перейдите в папку GameOfLife и создайте папку buid для сборки:  
 
 mkdir build  
 
