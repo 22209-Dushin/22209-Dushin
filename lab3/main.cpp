@@ -4,42 +4,49 @@
 #include <vector>
 #include <cstdint>
 #include "processor.h"
+#include "wav_failure.h"
 
 void getArguments(std::string& out, std::string& config, std::vector<std::string>& in, int argc, char* argv[]) {
     unsigned int argi = 1;
-    enum { FIRST, CONF, OUT, IN } state = FIRST;
+    enum class State{ FIRST, CONF, OUT, IN };
+    State state = State::FIRST;
     while (argi < argc) {
-        if (state == FIRST)
-            if (0 == strcmp("-c", argv[argi])) {
-                config = argv[++argi];
-                state = OUT;
-            }
-            else {
+        switch (state) {
+            case State::FIRST:
+                if (0 == strcmp("-c", argv[argi])) {
+                    config = argv[++argi];
+                    state = State::OUT;
+                }
+                else {
+                    out = argv[argi];
+                    state = State::CONF;
+                }
+                break;
+
+            case State::CONF:
+                if (0 == strcmp("-c", argv[argi])) {
+                    config = argv[++argi];
+                    state = State::IN;
+                }
+                else {
+                    in.push_back(argv[argi]);
+                    state = State::CONF;
+                }
+                break;
+
+            case State::OUT:
                 out = argv[argi];
-                state = CONF;
-            }
-        else if (state == CONF)
-            if (0 == strcmp("-c", argv[argi])) {
-                config = argv[++argi];
-                state = IN;
-            }
-            else {
+                state = State::IN;
+                break;
+
+            case State::IN:
                 in.push_back(argv[argi]);
-                state = CONF;
-            }
-        else if (state == OUT) {
-            out = argv[argi];
-            state = IN;
-        }
-        else if (state == IN) {
-            in.push_back(argv[argi]);
-            state = IN;
+                state = State::IN;
+                break;
         }
         ++argi;
     }
 }
-
-
 
 int main(int argc, char* argv[]) {
     if (argc > 1 && 0 == strcmp(argv[1], "-h")) {

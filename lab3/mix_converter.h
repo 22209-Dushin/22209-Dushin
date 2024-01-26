@@ -20,7 +20,7 @@ class mixConverterCreator : public convectorCreator {
         const std::vector<std::string>& streams,
         const std::vector<size_t>& stream_indexes
     ) const;
-    const char* convName() const;
-    const char* convHelp() const;
+    const std::string convName() const;
+    const std::string convHelp() const;
 };
 

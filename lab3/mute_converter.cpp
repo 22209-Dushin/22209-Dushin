@@ -1,5 +1,6 @@
 #include "mute_converter.h"
 #include "converter.h"
+#include "config_failure.h"
 
 void muteConverter::convert(int16_t* block, size_t sizeOfBlock, size_t blockBegin) {
     if ((blockBegin >= end && 0 != end) || blockBegin < begin)
@@ -25,12 +26,12 @@ std::shared_ptr<converter> muteConverterCreator::parse(
     );
 }
 
-const char* muteConverterCreator::convHelp() const {
+const std::string muteConverterCreator::convHelp() const {
     return "mute converter: "
         "Mutes stream from previous converter at interval\n"
         "configuration: mute <begin>[=0] <end>[=0]\n";
 }
 
-const char* muteConverterCreator::convName() const { return "mute"; }
+const std::string muteConverterCreator::convName() const { return "mute"; }
 
 

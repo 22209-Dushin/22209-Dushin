@@ -1,6 +1,7 @@
 #include <cmath>
 #include "volume_converter.h"
 #include "converter.h"
+#include "config_failure.h"
 
 void volumeConverter::convert(int16_t* block, size_t numberOfBlocks, size_t blockBegin) {
     if ((blockBegin >= end && 0 != end) || blockBegin < begin)
@@ -36,12 +37,12 @@ std::shared_ptr<converter> volumeConverterCreator::parse(
     );
 }
 
-const char* volumeConverterCreator::convHelp() const {
+const std::string volumeConverterCreator::convHelp() const {
     return "volume converter: "
         "Multiplying samples in interval by a <volume>/100.\n"
         "configuration: vol <volume> <begin>[=0] <end>[=0]\n";
 }
 
-const char* volumeConverterCreator::convName() const { return "vol"; }
+const std::string volumeConverterCreator::convName() const { return "vol"; }
 
 

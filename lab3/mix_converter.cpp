@@ -1,5 +1,6 @@
 #include "mix_converter.h"
 #include "converter.h"
+#include "config_failure.h"
 
 void mixConverter::convert(int16_t* block, size_t sizeOfBlock, size_t blockBegin) {
     int16_t* mixBlock = new int16_t[sizeOfBlock];
@@ -36,11 +37,11 @@ std::shared_ptr<converter> mixConverterCreator::parse(
     );
 }
 
-const char* mixConverterCreator::convName() const { 
+const std::string mixConverterCreator::convName() const { 
     return "mix"; 
 }
 
-const char* mixConverterCreator::convHelp() const {
+const std::string mixConverterCreator::convHelp() const {
     return "mix converter: "
         "Mixes stream from previous converter with input stream\n"
         "configuration: mix $<stream number> <begin>[=0] <end>[=0]\n";

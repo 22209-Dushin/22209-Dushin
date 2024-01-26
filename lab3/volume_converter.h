@@ -23,6 +23,6 @@ public:
         const std::vector<std::string>& streams,
         const std::vector<size_t>& streamIndexes
     ) const;
-    const char* convName() const;
-    const char* convHelp() const;
+    const std::string convName() const;
+    const std::string convHelp() const;
 };
