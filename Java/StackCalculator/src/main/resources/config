@@ -1,0 +1,9 @@
+pop ru.nsu.dushin.operation.Pop
+push ru.nsu.dushin.operation.Push
+print ru.nsu.dushin.operation.Print
+define ru.nsu.dushin.operation.Define
+sqrt ru.nsu.dushin.operation.Sqrt
++ ru.nsu.dushin.operation.Plus
+- ru.nsu.dushin.operation.Minus
+* ru.nsu.dushin.operation.Multiply
+/ ru.nsu.dushin.operation.Divide
