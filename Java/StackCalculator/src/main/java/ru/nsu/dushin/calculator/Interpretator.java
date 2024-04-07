@@ -15,9 +15,9 @@ public class Interpretator {
     public void execute() {
         String line = "";
         String operationName = "";
-        ArrayList<Object> args = new ArrayList<>();
         try (Scanner scan = new Scanner(reader)) {
             while (scan.hasNext()) {
+                ArrayList<Object> args = new ArrayList<>();
                 line = scan.nextLine();
                 if (line.isEmpty() || line.charAt(0) == '#')
                     continue;
@@ -34,7 +34,6 @@ public class Interpretator {
                 OperationFactory.getOperation(operationName).exec(stack, args);
                 LOGGER.info(operationName + args.toString());
                 operationName = "";
-                args.clear();
             }
         } catch (Throwable e) {
             LOGGER.severe("Error in command: " + line + "\n" + e.getClass().getSimpleName() + (e.getMessage() == null ? "" : ": " + e.getMessage()));

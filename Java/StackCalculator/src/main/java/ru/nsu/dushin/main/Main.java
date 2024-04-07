@@ -8,26 +8,19 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 public class Main {
-    private static Reader reader;
-    public static void checkArgs(String[] args) {
+    public static Reader createReader(String[] args) throws IOException {
         if (args.length > 0) {
-            try (FileReader in = new FileReader(args[0])) {
-                reader = in;
-            } catch (IOException e) {
-                System.out.println("Error " + e.getMessage());
-            }
+            return new FileReader(args[0]);
         }
-        else {
-            try (InputStreamReader in = new InputStreamReader(System.in)) {
-                reader = in;
-            } catch (IOException e) {
-                System.out.println("Error " + e.getMessage());
-            }
-        }
+        return new InputStreamReader(System.in);
     }
+
     public static void main(String[] args) {
-        checkArgs(args);
-        Interpretator interpretator = new Interpretator(reader);
-        interpretator.execute();
+        try (Reader reader = createReader(args)) {
+            Interpretator interpretator = new Interpretator(reader);
+            interpretator.execute();
+        }catch (IOException e)) {
+            System.out.println("Error " + e.getMessage());
+        }
     }
 }
