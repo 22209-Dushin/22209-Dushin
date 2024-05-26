@@ -8,7 +8,7 @@ public class Client {
     private ClientState state;
     private ByteBuffer buffer = ByteBuffer.allocate(1024 * 1024);
     private int fileNameLength;
-    private int remainingBytes;
+    private int remainingBytes = 4;
     private String fileName;
     public Client(SocketChannel channel) {
         this.channel = channel;
