@@ -52,46 +52,60 @@ public class SocketServer {
         this.clients.put(channel, new Client(channel));
     }
 
-    private void read(SelectionKey key) throws IOException{
+        private void read(SelectionKey key) throws IOException{
         Client client = this.clients.get(key.channel());
         SocketChannel channel = client.getChannel();
-        if (client.getState() == ClientState.LENGTH_NAME && channel.socket().getInputStream().available() >= 4) {
-            ByteBuffer lengthNameBuffer = ByteBuffer.allocate(4);
-            channel.read(lengthNameBuffer);
-            client.setFileNameLength(ByteBuffer.wrap(lengthNameBuffer.array()).getInt());
-            client.setState(ClientState.NAME);
-        }
-        if (client.getState() == ClientState.NAME && channel.socket().getInputStream().available() >= client.getFileNameLength()) {
-            ByteBuffer NameBuffer = ByteBuffer.allocate(client.getFileNameLength());
-            channel.read(NameBuffer);
-            client.setFileName(new String(NameBuffer.array()));
-            client.setState(ClientState.LENGTH_FILE);
-        }
-        if (client.getState() == ClientState.LENGTH_FILE && channel.socket().getInputStream().available() >= 4) {
-            ByteBuffer lengthFileBuffer = ByteBuffer.allocate(4);
-            channel.read(lengthFileBuffer);
-            client.setRemainingBytes(ByteBuffer.wrap(lengthFileBuffer.array()).getInt());
-            client.setState(ClientState.FILE);
-        }
-        if (client.getState() == ClientState.FILE) {
-            while(channel.socket().getInputStream().available() >= min(client.getRemainingBytes(), 1024 * 1024)) {
-                int bytesRead = channel.read(client.getBuffer());
+        ByteBuffer buffer = client.getBuffer();
+        int bytesRead;
+        switch (client.getState()) {
+            case LENGTH_NAME :
+                buffer.limit(4);
+                bytesRead = channel.read(buffer);
+                client.decreaseRemainingBytes(bytesRead);
+                if (client.getRemainingBytes() == 0) {
+                    client.setFileNameLength(ByteBuffer.wrap(buffer.slice().array()).getInt());
+                    client.setRemainingBytes(client.getFileNameLength());
+                    client.setState(ClientState.NAME);
+                    buffer.clear();
+                }
+                break;
+            case NAME :
+                buffer.limit(client.getFileNameLength());
+                bytesRead = channel.read(buffer);
+                client.decreaseRemainingBytes(bytesRead);
+                if (client.getRemainingBytes() == 0) {
+                    client.setFileName(new String(buffer.array(), 0, client.getFileNameLength()));
+                    client.setRemainingBytes(4);
+                    client.setState(ClientState.LENGTH_FILE);
+                    buffer.clear();
+                }
+                break;
+            case LENGTH_FILE :
+                buffer.limit(4);
+                bytesRead = channel.read(buffer);
+                client.decreaseRemainingBytes(bytesRead);
+                if (client.getRemainingBytes() == 0) {
+                    client.setRemainingBytes(ByteBuffer.wrap(buffer.slice().array()).getInt());
+                    client.setState(ClientState.FILE);
+                    buffer.clear();
+                }
+                break;
+            case FILE :
+                bytesRead = channel.read(client.getBuffer());
                 client.decreaseRemainingBytes(bytesRead);
                 try (FileOutputStream fileOutputStream = new FileOutputStream(client.getFileName(), true)) {
                     fileOutputStream.getChannel().position(fileOutputStream.getChannel().size());
                     fileOutputStream.write(client.getBuffer().array(), 0, bytesRead);
+                    buffer.clear();
                 }
                 if (client.getRemainingBytes() == 0) {
                     client.setState(ClientState.DONE);
-                    break;
                 }
-            }
-        }
-        if (client.getState() == ClientState.DONE) {
-            sendAnswer(client);
+            case DONE :
+                sendAnswer(client);
+                break;
         }
     }
-
     private void sendAnswer(Client client) throws IOException {
         String confirmationMessage = client.getFileName() + " Ack";
         ByteBuffer confirmationBuffer = ByteBuffer.allocate(4 + confirmationMessage.getBytes().length);
