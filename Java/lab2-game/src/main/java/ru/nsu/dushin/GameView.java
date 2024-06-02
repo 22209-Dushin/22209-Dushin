@@ -45,14 +45,14 @@ public class GameView extends JPanel {
     }
 
     public void playMusic() {
-        sound.setFile(2);
-        sound.play();
-        sound.loop();
+        //sound.setFile(2);
+        sound.play(2);
+        sound.loop(2);
     }
 
     public void playSE(int i) {
-        sound.setFile(i);
-        sound.play();
+       // sound.setFile(i);
+        sound.play(i);
     }
 
     private void loadDigitsimage() {

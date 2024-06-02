@@ -22,12 +22,9 @@ public class FlappyBirdGame {
         frame.setVisible(true);
     };
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() ->
-        {
             GameModel model = new GameModel();
             GameView view = new GameView(model);
             GameController controller = new GameController(model, view);
             createFrame(view);
-        });
     }
 }
